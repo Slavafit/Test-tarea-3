@@ -40,10 +40,11 @@ src/
 
 ## GitHub Pages
 
-1. Создайте репозиторий и загрузите проект.
-2. В `package.json` добавьте скрипт `"deploy": "vite build"` при использовании собственного workflow.
-3. В настройках репозитория откройте **Settings → Pages → Build and deployment** и выберите **GitHub Actions**.
-4. Используйте стандартный workflow для Vite из каталога GitHub Actions. Vite автоматически собирается в папку `dist`.
+Для репозитория уже подготовлен workflow `.github/workflows/deploy.yml`. После push в `main` GitHub Actions автоматически собирает проект и публикует папку `dist`.
+
+В настройках репозитория откройте **Settings → Pages → Build and deployment** и выберите **GitHub Actions**. Опубликованный сайт будет доступен по адресу:
+
+`https://slavafit.github.io/Test-tarea-3/`
 
 Для project page с адресом вида `username.github.io/repository/` передайте имя репозитория при сборке:
 
