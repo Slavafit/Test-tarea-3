@@ -7,10 +7,10 @@ import './styles.css'
 const A='/Test-tarea-3/'
 const assets='https://snapbuild.ru/assets/images/'
 
-function Logo(){return <img className="logo" src={`${assets}582db07d8ccd60da.svg`} alt="Снэпбилд"/>}
+function Logo(){return <img className="logo" src={`${A}images/snapbuild-logo.svg`} alt="Снэпбилд"/>}
 function Header(){const[open,setOpen]=useState(false);return <header className="top"><div className="topbar"><a href="#top"><Logo/></a><button className="menu" onClick={()=>setOpen(!open)}>{open?'Закрыть':'Меню'}</button><nav className={open?'open':''} onClick={()=>setOpen(false)}><a href="#product">Продукт</a><a href="#features">Возможности</a><a href="#security">Безопасность</a><a href="#faq">FAQ</a></nav><a className="btn compact" href="#contact">Начать сейчас</a></div></header>}
 const Btn=({children='Начать сейчас',href='#contact',light=false})=><a href={href} className={`btn ${light?'light':''}`}>{children}</a>
-function Hero(){return <section className="hero" id="top"><div className="hero-text"><h1>Платформа, где все создается в рамках вашего бренда и дизайн-системы</h1><p>Подключите дизайн-систему к Снэпбилду, чтобы каждый участник команды мог создавать профессиональные материалы в фирменном стиле за минуты, а не дни.</p><Btn/></div><div className="hero-shot"><img src={`${assets}hero-snapbuild-2026-08-07-v2.webp`} alt="Интерфейс платформы Снэпбилд"/></div></section>}
+function Hero(){return <section className="hero" id="top"><div className="hero-text"><h1>Платформа, где все создается в рамках вашего бренда и дизайн-системы</h1><p>Подключите дизайн-систему к Снэпбилду, чтобы каждый участник команды мог создавать профессиональные материалы в фирменном стиле за минуты, а не дни.</p><Btn/></div><div className="hero-shot"><img src={`${A}images/hero.webp`} alt="Интерфейс платформы Снэпбилд"/></div></section>}
 function BrandLine(){return <div className="brandline"><span>С платформой работают команды, для которых бренд — закон</span><div className="brands"><b>IVI</b><b>WB</b><b>OZON</b><b>МТС</b><b>VK</b></div></div>}
 const Head=({children,copy})=><div className="head"><h2>{children}</h2>{copy&&<p>{copy}</p>}</div>
 
