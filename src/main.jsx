@@ -5,7 +5,7 @@ import { getUseCases } from './services/useCasesService'
 import { submitLead } from './services/leadService'
 import './styles.css'
 
-const A='/Test-tarea-3/'
+const A=import.meta.env.BASE_URL
 const assets='https://snapbuild.ru/assets/images/'
 
 function Logo(){return <img className="logo" src={`${A}images/snapbuild-logo.svg`} alt="Снэпбилд"/>}

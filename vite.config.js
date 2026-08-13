@@ -3,5 +3,5 @@ import react from '@vitejs/plugin-react'
 
 export default defineConfig({
   plugins: [react()],
-  base: '/Test-tarea-3/',
+  base: process.env.GITHUB_ACTIONS ? '/Test-tarea-3/' : '/',
 })
