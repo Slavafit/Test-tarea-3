@@ -103,7 +103,6 @@ function OriginalScripts() {
     const load = (src) => new Promise((resolve) => {
       const script = document.createElement('script')
       script.src = `${base}assets/js/${src}`
-      script.type = 'module'
       script.onload = resolve
       script.async = false
       document.body.appendChild(script)

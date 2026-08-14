@@ -1,3 +1,4 @@
+(function () {
 const root = document.documentElement;
 
 requestAnimationFrame(() => {
@@ -96,3 +97,4 @@ if (menuToggle && menuButton && menu) {
   compactHeader.addEventListener('change', handleBreakpointChange);
   syncMenu();
 }
+})();
