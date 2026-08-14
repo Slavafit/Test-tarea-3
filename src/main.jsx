@@ -9,6 +9,7 @@ import './original/inline.css'
 import './extensions.css'
 
 const base = import.meta.env.BASE_URL
+const originalScriptVersion = '20260814-2'
 const markup = originalMarkup
   .replaceAll('assets/', `${base}assets/`)
   .replaceAll('href="/"', `href="${base}"`)
@@ -102,7 +103,7 @@ function OriginalScripts() {
     const nodes = []
     const load = (src) => new Promise((resolve) => {
       const script = document.createElement('script')
-      script.src = `${base}assets/js/${src}`
+      script.src = `${base}assets/js/${src}?v=${originalScriptVersion}`
       script.onload = resolve
       script.async = false
       document.body.appendChild(script)
