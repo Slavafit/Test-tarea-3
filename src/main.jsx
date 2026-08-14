@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useLayoutEffect, useState } from 'react'
 import { createRoot } from 'react-dom/client'
 import { createPortal } from 'react-dom'
 import originalMarkup from './original/markup.html?raw'
@@ -110,6 +110,58 @@ function OriginalScripts() {
   return null
 }
 
+function ScrollReveal({ ready }) {
+  useLayoutEffect(() => {
+    if (!ready) return undefined
+
+    const sections = [
+      ['#process', '.dds-steps-header, .dds-steps-card'],
+      ['#use-cases', '.dds-tabs-inner'],
+      ['#compare', '.dds-benefit-header, .dds-benefit-scroll'],
+      ['#features', '.dds-why-safe-section-title, .dds-why-safe-point'],
+      ['#roadmap', '.dds-rmap-header, .dds-rmap-scroller'],
+      ['#faq', '.dds-accordion-header, .dds-accordion-col'],
+      ['#cta', '.dds-launch-content'],
+    ]
+    const items = []
+
+    sections.forEach(([sectionSelector, itemSelector]) => {
+      const section = document.querySelector(sectionSelector)
+      section?.querySelectorAll(itemSelector).forEach((item, index) => {
+        item.classList.add('scroll-reveal-item')
+        item.style.setProperty('--reveal-delay', `${Math.min(index * 80, 240)}ms`)
+        items.push(item)
+      })
+    })
+
+    const groups = Array.from(document.querySelectorAll('.ext-section'))
+    groups.forEach((group) => group.classList.add('scroll-reveal-group'))
+    const observed = [...items, ...groups]
+    document.documentElement.classList.add('scroll-reveal-enabled')
+
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || !('IntersectionObserver' in window)) {
+      observed.forEach((item) => item.classList.add('is-revealed'))
+      return () => document.documentElement.classList.remove('scroll-reveal-enabled')
+    }
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return
+        entry.target.classList.add('is-revealed')
+        observer.unobserve(entry.target)
+      })
+    }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' })
+
+    observed.forEach((item) => observer.observe(item))
+    return () => {
+      observer.disconnect()
+      document.documentElement.classList.remove('scroll-reveal-enabled')
+    }
+  }, [ready])
+
+  return null
+}
+
 function App() {
   const [targets, setTargets] = useState(null)
   useEffect(() => {
@@ -132,6 +184,7 @@ function App() {
     <div className="original-site" dangerouslySetInnerHTML={{ __html: markup }} />
     <OriginalScripts />
     {targets && <>{createPortal(<UseCasesExtension />, targets.cases)}{createPortal(<MetricsExtension />, targets.metrics)}{createPortal(<ReviewsExtension />, targets.reviews)}{createPortal(<PricingExtension />, targets.pricing)}{createPortal(<LeadFormExtension />, targets.lead)}</>}
+    <ScrollReveal ready={Boolean(targets)} />
   </>
 }
 
