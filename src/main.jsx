@@ -1,53 +1,138 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { createRoot } from 'react-dom/client'
+import { createPortal } from 'react-dom'
+import originalMarkup from './original/markup.html?raw'
 import { getTestimonials } from './services/testimonialsService'
 import { getUseCases } from './services/useCasesService'
 import { submitLead } from './services/leadService'
-import './styles.css'
-import './motion.css'
+import './original/inline.css'
+import './extensions.css'
 
-const A=import.meta.env.BASE_URL
-const assets='https://snapbuild.ru/assets/images/'
+const base = import.meta.env.BASE_URL
+const markup = originalMarkup
+  .replaceAll('assets/', `${base}assets/`)
+  .replaceAll('href="/"', `href="${base}"`)
 
-function Logo(){return <img className="logo" src={`${A}images/snapbuild-logo.svg`} alt="Снэпбилд"/>}
-function Header(){const[open,setOpen]=useState(false),[scrolled,setScrolled]=useState(false);useEffect(()=>{const onScroll=()=>setScrolled(scrollY>12);onScroll();addEventListener('scroll',onScroll,{passive:true});return()=>removeEventListener('scroll',onScroll)},[]);useEffect(()=>{const onKey=e=>e.key==='Escape'&&setOpen(false);addEventListener('keydown',onKey);document.documentElement.classList.toggle('menu-open',open);return()=>{removeEventListener('keydown',onKey);document.documentElement.classList.remove('menu-open')}},[open]);return <header className={`top ${scrolled?'scrolled':''}`}><div className="topbar"><a href="#top"><Logo/></a><button className="menu" aria-expanded={open} aria-label={open?'Закрыть меню':'Открыть меню'} onClick={()=>setOpen(!open)}>{open?'Закрыть':'Меню'}</button><nav className={open?'open':''} onClick={()=>setOpen(false)}><a href="#product">Продукт</a><a href="#features">Возможности</a><a href="#security">Безопасность</a><a href="#faq">FAQ</a></nav><a className="btn compact" href="#contact">Начать сейчас</a></div></header>}
-const Btn=({children='Начать сейчас',href='#contact',light=false})=><a href={href} className={`btn ${light?'light':''}`}>{children}</a>
-function Hero(){return <section className="hero" id="top"><div className="hero-text"><h1>Платформа, где все создается в рамках вашего бренда и дизайн-системы</h1><p>Подключите дизайн-систему к Снэпбилду, чтобы каждый участник команды мог создавать профессиональные материалы в фирменном стиле за минуты, а не дни.</p><Btn/></div><div className="hero-shot"><img src={`${A}images/hero.webp`} alt="Интерфейс платформы Снэпбилд"/></div></section>}
-const brandLogos=['logo-1.svg','logo-2.svg','logo-avito.svg','logo-cian.svg','logo-lenta.svg']
-function BrandLine(){return <section className="brandline" id="logos"><span>С платформой работают команды, для которых бренд — закон</span><div className="brands"><div className="brand-track">{[...brandLogos,...brandLogos].map((logo,i)=><div className="brand-item" style={{'--logo-index':i}} key={`${logo}-${i}`}><img src={`${A}images/${logo}`} alt=""/></div>)}</div></div></section>}
-const Head=({children,copy})=><div className="head"><h2>{children}</h2>{copy&&<p>{copy}</p>}</div>
+function SectionHeader({ title, description }) {
+  return <header className="ext-head"><h2>{title}</h2>{description && <p>{description}</p>}</header>
+}
 
-const platform=[
- {n:'01',title:'Дизайн-система — ядро платформы',text:'Ваши компоненты, цвета и шрифты — единственный источник стиля',img:'84a4450b3827bc21.webp'},
- {n:'02',title:'Гибкая конфигурация',text:'Правила бренда задаются один раз — работают в каждой генерации',img:'process-flexible-configuration.webp'},
- {n:'03',title:'Соответствие по умолчанию',text:'AI не может нарушить бренд: материалы создаются строго по вашим правилам',img:'afe03eb4a67d5dfb.webp'}]
-function Platform(){return <section id="product"><Head copy="Сайты, изображения, видео, баннеры и презентации — из одной идеи, в вашем стиле">Одна платформа — весь маркетинг</Head><div className="platform-grid">{platform.map(x=><article className="platform-card" key={x.n}><div className="card-copy"><span>{x.n}</span><h3>{x.title}</h3><p>{x.text}</p></div><img src={`${assets}${x.img}`} alt=""/></article>)}</div></section>}
+function UseCasesExtension() {
+  const [items, setItems] = useState([])
+  const [active, setActive] = useState(0)
+  const [status, setStatus] = useState('loading')
 
-const featureData={
- 'Сайты':{items:[['Результат за один запрос','Отправляйте документ или ссылку — платформа собирает структуру','use-cases-tab1-item1-v2.webp'],['Страница за минуту','В вашей дизайн-системе, с вашими шрифтами и компонентами','use-cases-tab1-item2.webp'],['AI или визуальный редактор','Меняйте контент через чат или редактируйте вручную','use-cases-tab1-item3.webp'],['Адаптация под ЦА за один клик','Версия сайта под новый сегмент без команды продакшена','use-cases-web-04.webp']]},
- 'Изображения':{items:[['В стиле и цвете бренда','Единый визуальный язык во всех генерациях','use-cases-img-01.webp'],['Попадание с первой генерации','Меньше итераций и ручных правок','use-cases-tab2-item2.webp'],['Редактирование объектов','Меняйте отдельные детали без пересборки','use-cases-tab2-item3.webp'],['Любой стиль и формат','От реализма до фирменной графики','use-cases-tab2-item4.webp']]},
- 'Видео':{items:[['Любой стиль и формат','Ролики для каждой платформы','use-cases-vid-01.webp'],['Ключевые кадры под контролем','Согласуйте композицию до генерации','use-cases-tab3-item2.webp'],['Управление движением','Задавайте динамику отдельных объектов','use-cases-tab3-item3.webp'],['Версии автоматически','Один сценарий — десятки адаптаций','use-cases-tab3-item4.webp']]},
- 'Баннеры':{items:[['Креативы из одной идеи','Мастер-макет для всей кампании','use-cases-tab4-item1.webp'],['Все размеры автоматически','Адаптации под площадки и плейсменты','use-cases-tab4-item2.webp'],['Текст под контролем','AI соблюдает иерархию и safe-зоны','use-cases-tab4-item3.webp'],['Экспорт под площадку','Готовые форматы без ручной сборки','use-cases-tab4-item4.webp']]},
- 'Презентации':{items:[['Презентация из запроса','Готовая структура и визуальный рассказ','use-cases-pres-01.jpg'],['В вашей дизайн-системе','Компоненты, сетка и типографика бренда','use-cases-tab5-item2.webp'],['Редактирование через AI','Обновляйте содержание в диалоге','use-cases-tab5-item3.webp'],['Экспорт в нужном формате','Готовый файл для команды и клиента','use-cases-tab5-item4.webp']]}}
-function Features(){const[tab,setTab]=useState('Сайты'),[active,setActive]=useState(0);const data=featureData[tab];const selectTab=x=>{setTab(x);setActive(0)};return <section id="features"><Head>Любой контент в фирменном стиле за считанные минуты</Head><div className="tabs" role="tablist">{Object.keys(featureData).map(x=><button role="tab" aria-selected={x===tab} className={x===tab?'active':''} onClick={()=>selectTab(x)} key={x}>{x}</button>)}</div><div className="feature-panel"><div className="feature-list">{data.items.map((x,i)=><button className={i===active?'active':''} onClick={()=>setActive(i)} key={x[0]}><span>0{i+1}</span><h3>{x[0]}</h3><p>{x[1]}</p></button>)}</div><div className="feature-image"><img key={`${tab}-${active}`} src={`${assets}${data.items[active][2]}`} alt={`Пример: ${data.items[active][0]}`}/><span className="image-index">0{active+1} / 04</span></div></div></section>}
+  useEffect(() => {
+    getUseCases().then((data) => { setItems(data); setStatus('data') }).catch(() => setStatus('error'))
+  }, [])
 
-const compare=[['Time-to-market','5 минут','30–60 мин','2–3 дня','1–2 дня','3–5 недель'],['Дизайн-система','100% точность','Частично','Шаблоны','Вручную','Через ревью'],['Визуальный редактор','+ ИИ','—','+','—','—'],['Требуемые навыки','Нет','Промпты + код','Дизайн','Разработка','Полная команда']]
-function Comparison(){return <section><Head copy="Вы получаете не редактор, а результат: готовые маркетинговые материалы без проблем с настройками">Почему команды выбирают Снэпбилд</Head><div className="table-wrap"><table><thead><tr><th>Особенности</th><th className="selected">снэпбилд</th><th>Claude + Figma MCP</th><th>No-code</th><th>Cursor</th><th>Традиционный</th></tr></thead><tbody>{compare.map(r=><tr key={r[0]}>{r.map((c,i)=><td className={i===1?'selected':''} key={i}>{c}</td>)}</tr>)}</tbody></table></div></section>}
+  const item = items[active]
+  return <section className="ext-section ext-cases" id="business-cases">
+    <SectionHeader title="Кейсы использования" description="Одна платформа — разные задачи команд" />
+    {status === 'loading' && <div className="ext-state">Загружаем кейсы…</div>}
+    {status === 'error' && <div className="ext-state">Не удалось загрузить кейсы</div>}
+    {item && <>
+      <div className="ext-tabs" role="tablist">{items.map((entry, index) => <button role="tab" aria-selected={active === index} className={active === index ? 'active' : ''} onClick={() => setActive(index)} key={entry.id}>{entry.tab}</button>)}</div>
+      <article className="ext-case-card" key={item.id}>
+        <div><span className="ext-number">0{active + 1} / 04</span><h3>{item.title}</h3><p>{item.text}</p></div>
+        <ul>{item.points.map((point) => <li key={point}><span>↗</span>{point}</li>)}</ul>
+        <div className="ext-case-metric"><strong>{item.metric}</strong><span>{item.metricLabel}</span></div>
+      </article>
+    </>}
+  </section>
+}
 
-function Cases(){const[items,setItems]=useState([]),[active,setActive]=useState(0),[state,setState]=useState('loading');useEffect(()=>{getUseCases().then(data=>{setItems(data);setState('data')}).catch(()=>setState('error'))},[]);const item=items[active];return <section id="cases" className="added use-cases"><Head copy="Маркетинг, дизайн, продажи и продукт используют одну платформу — каждый для своих задач">Кейсы использования</Head>{state==='loading'&&<div className="case-panel case-state">Загружаем кейсы…</div>}{state==='error'&&<div className="case-panel case-state">Не удалось загрузить кейсы.</div>}{item&&<><div className="case-tabs" role="tablist">{items.map((x,i)=><button role="tab" aria-selected={i===active} className={i===active?'active':''} onClick={()=>setActive(i)} key={x.id}>{x.tab}</button>)}</div><article className="case-panel"><div className="case-main"><span>0{active+1} / 04</span><h3>{item.title}</h3><p>{item.text}</p></div><ul>{item.points.map(x=><li key={x}>↗ <span>{x}</span></li>)}</ul><div className="case-metric"><strong>{item.metric}</strong><span>{item.metricLabel}</span></div></article></>}</section>}
-function Metrics(){return <section id="metrics" className="added metrics"><Head>Результат, который можно измерить</Head><div className="metric-grid">{[['5 минут','до первой версии'],['100%','соответствие дизайн-системе'],['78%','меньше ручных правок'],['6×','больше материалов']].map(x=><div key={x[0]}><strong>{x[0]}</strong><span>{x[1]}</span></div>)}</div><p className="note">Средние показатели проектных команд после внедрения платформы</p></section>}
-function Testimonials(){const[items,setItems]=useState([]),[n,setN]=useState(0),[state,setState]=useState('loading'),[retry,setRetry]=useState(0);useEffect(()=>{let live=true;setState('loading');getTestimonials().then(data=>{if(live){setItems(data);setState('data')}}).catch(()=>live&&setState('error'));return()=>{live=false}},[retry]);return <section className="added reviews"><Head copy="Данные приходят из JSON через отдельный service layer — источник можно заменить API без изменения компонента">Команды о работе со Снэпбилдом</Head>{state==='loading'&&<div className="review loading">Загружаем отзывы…</div>}{state==='error'&&<div className="review loading">Не удалось загрузить отзывы.<button onClick={()=>setRetry(retry+1)}>Повторить</button></div>}{state==='data'&&items.length>0&&<article className="review"><blockquote>«{items[n].quote}»</blockquote><div className="review-foot"><div className="avatar">{items[n].initials}</div><div><b>{items[n].name}</b><span>{items[n].role}</span></div><div className="review-nav"><span>{n+1} / {items.length}</span><button aria-label="Предыдущий отзыв" onClick={()=>setN((n-1+items.length)%items.length)}>←</button><button aria-label="Следующий отзыв" onClick={()=>setN((n+1)%items.length)}>→</button></div></div></article>}</section>}
-const plans=[{name:'Команда',month:49000,year:470000,text:'Для одного отдела маркетинга',features:['До 5 пользователей','1 дизайн-система','Сайты и изображения']},{name:'Бизнес',month:129000,year:1238000,text:'Для производства контента в масштабе',features:['До 25 пользователей','Все форматы','Роли и согласования'],hot:true},{name:'Контур',month:null,year:null,text:'Для корпоративной инфраструктуры',features:['Без ограничений','Private cloud / on-premise','Собственные модели и SSO']}]
-function Pricing(){const[period,setPeriod]=useState('month');const price=p=>p[period]?`${p[period].toLocaleString('ru-RU')} ₽`:'По запросу';return <section id="pricing" className="added"><div className="pricing-head"><Head copy="При оплате за год два месяца работы включены в стоимость">Тарифы под ваши задачи</Head><div className="billing" aria-label="Период оплаты"><button className={period==='month'?'active':''} onClick={()=>setPeriod('month')}>Месяц</button><button className={period==='year'?'active':''} onClick={()=>setPeriod('year')}>Год <span>−20%</span></button></div></div><div className="prices">{plans.map(p=><article className={p.hot?'hot':''} key={p.name}>{p.hot&&<small>Популярный</small>}<h3>{p.name}</h3><p>{p.text}</p><strong>{price(p)}{p[period]&&<small> / {period==='month'?'месяц':'год'}</small>}</strong><ul>{p.features.map(x=><li key={x}>✓ {x}</li>)}</ul><Btn>{p.name==='Контур'?'Обсудить проект':'Запросить демо'}</Btn></article>)}</div></section>}
+function MetricsExtension() {
+  const metrics = [['5 минут', 'до первой версии'], ['100%', 'соответствие дизайн-системе'], ['78%', 'меньше ручных правок'], ['×6', 'больше материалов']]
+  return <section className="ext-section ext-metrics" id="results"><SectionHeader title="Результат, который можно измерить" /><div className="ext-metric-grid">{metrics.map(([value, label]) => <div key={value}><strong>{value}</strong><span>{label}</span></div>)}</div><small>Средние показатели команд после внедрения платформы</small></section>
+}
 
-const security=[['Только одобренные модели','Работаем только с российскими и локализованными моделями, без экспортных ограничений','security-approved-models.webp'],['Ваш контур, ваша юрисдикция','Развертывание в частном облаке с полным соответствием 152-ФЗ и внутренним ИБ-требованиям','security-private-cloud.webp'],['Собственный AI-стек','Вы сами определяете модели, хранилища, доступы и цепочки валидации','security-ai-stack.webp']]
-function Security(){return <section id="security"><Head>Безопасность без компромиссов</Head><div className="security-grid">{security.map((x,i)=><article key={x[0]}><img src={`${assets}${x[2]}`} alt=""/><div><span>0{i+1}</span><h3>{x[0]}</h3><p>{x[1]}</p></div></article>)}</div></section>}
-const roadmap=[['Сайты за 5 минут','Декабрь, 2025'],['Консистентные AI-иллюстрации','Январь, 2026'],['Дизайн-система из вашего сайта','Февраль, 2026'],['Режим изображений','Март, 2026'],['Генерация видео','Апрель, 2026'],['Канвас, баннеры и презентации','Июль, 2026']]
-function Roadmap(){const scroller=useRef(null),drag=useRef(null);const down=e=>{if(e.pointerType!=='mouse')return;drag.current={x:e.pageX,left:scroller.current.scrollLeft};scroller.current.classList.add('dragging');scroller.current.setPointerCapture?.(e.pointerId)};const move=e=>{if(!drag.current)return;scroller.current.scrollLeft=drag.current.left-(e.pageX-drag.current.x)};const up=()=>{drag.current=null;scroller.current?.classList.remove('dragging')};return <section className="roadmap"><Head copy="Приоритизируем бэклог для ваших целей">Каждый день — новый релиз</Head><div className="road-list" ref={scroller} onPointerDown={down} onPointerMove={move} onPointerUp={up} onPointerCancel={up}>{roadmap.map((x,i)=><article key={x[0]}><span>{String(i+1).padStart(2,'0')}</span><h3>{x[0]}</h3><small>{x[1]}</small></article>)}</div><p className="drag-hint">← Перетаскивайте, чтобы посмотреть roadmap →</p></section>}
-const faq=[['Что можно создавать в Снэпбилде?','Сайты, изображения, видео, баннеры и презентации — все основные форматы маркетинговых материалов в едином фирменном стиле.'],['Как работает анализ бренда?','Система анализирует интерфейсы и компоненты, выделяет цвета, типографику, сетки и формирует модель дизайн-системы.'],['Можно ли экспортировать решение?','Да. Результат пригоден для интеграции в React, Vue, Angular или чистый HTML/CSS и текущий CI/CD.'],['Возможна ли работа в закрытом облаке?','Да. Поддерживается развёртывание в изолированной инфраструктуре без доступа к внешней сети.']]
-function FAQ(){const[open,setOpen]=useState(0);return <section id="faq"><Head copy="Ответы, которые помогут принять решение уверенно — без рисков для бренда и безопасности">Часто задаваемые вопросы</Head><div className="faq-list">{faq.map((x,i)=><article className={open===i?'open':''} key={x[0]}><button aria-expanded={open===i} onClick={()=>setOpen(open===i?-1:i)}><span>{x[0]}</span><b>+</b></button><div className="faq-answer"><p>{x[1]}</p></div></article>)}</div></section>}
-function Contact(){const[form,setForm]=useState({name:'',email:'',company:''}),[errors,setErrors]=useState({}),[state,setState]=useState('idle');const submit=async e=>{e.preventDefault();const er={};if(!form.name.trim())er.name='Укажите имя';if(!/^\S+@\S+\.\S+$/.test(form.email))er.email='Введите корректный email';if(!form.company.trim())er.company='Укажите компанию';setErrors(er);if(Object.keys(er).length)return;setState('loading');try{await submitLead(form);setState('success')}catch{setState('error')}};const field=(key,label,type='text')=><label>{label}<input type={type} value={form[key]} aria-invalid={!!errors[key]} onChange={e=>setForm({...form,[key]:e.target.value})}/>{errors[key]&&<small>{errors[key]}</small>}</label>;return <section className="added contact-form" id="contact"><Head copy="Оставьте контакты — проведём персональную демонстрацию на материалах вашей компании">Посмотрим на задачи вашей команды</Head><div className="formbox">{state==='success'?<div className="success"><b>✓</b><h3>Заявка принята</h3><p>Свяжемся с вами в течение рабочего дня.</p><button onClick={()=>setState('idle')}>Отправить ещё одну</button></div>:<form onSubmit={submit} noValidate>{field('name','Ваше имя')}{field('email','Рабочий email','email')}{field('company','Компания')}<button className="btn" disabled={state==='loading'}>{state==='loading'?'Отправляем…':'Запросить демо'}</button>{state==='error'&&<small>Не удалось отправить. Попробуйте ещё раз.</small>}<p>Нажимая кнопку, вы соглашаетесь с политикой конфиденциальности</p></form>}</div></section>}
-function FinalCTA(){return <section className="final-cta"><img className="cta-dust" src={`${A}images/cta-dust.webp`} alt=""/><div className="cta-content"><h2>Профессиональные материалы в фирменном стиле<br/>за минуты, а не дни</h2><Btn light>Начать сейчас</Btn></div></section>}
-function Footer(){return <footer><div><Logo/><p>Платформа, где все создается в рамках вашего бренда и дизайн-системы</p></div><div><b>Навигация</b><a href="#product">Продукт</a><a href="#features">Возможности</a><a href="#security">Безопасность</a><a href="#faq">FAQ</a></div><div><b>Контакты</b><a href="mailto:hey@snapbuild.ru">hey@snapbuild.ru</a><a href="#contact">Запросить демо</a></div><span>© Сгенерировано в Снэпбилде. Все права защищены.</span></footer>}
-function App(){useEffect(()=>{const elements=[...document.querySelectorAll('main>section:not(.hero),.brandline')];if(matchMedia('(prefers-reduced-motion: reduce)').matches){elements.forEach(x=>x.classList.add('revealed'));return}const observer=new IntersectionObserver(entries=>entries.forEach(entry=>{if(entry.isIntersecting){entry.target.classList.add('revealed');observer.unobserve(entry.target)}}),{threshold:.12,rootMargin:'0px 0px -45px'});elements.forEach(x=>observer.observe(x));return()=>observer.disconnect()},[]);return <><Header/><main><Hero/><BrandLine/><Platform/><Features/><Cases/><Comparison/><Metrics/><Security/><Roadmap/><Testimonials/><Pricing/><FAQ/><Contact/><FinalCTA/></main><Footer/></>}
-createRoot(document.getElementById('root')).render(<React.StrictMode><App/></React.StrictMode>)
+function ReviewsExtension() {
+  const [items, setItems] = useState([])
+  const [active, setActive] = useState(0)
+  const [status, setStatus] = useState('loading')
+  const [retry, setRetry] = useState(0)
+  useEffect(() => { setStatus('loading'); getTestimonials().then((data) => { setItems(data); setStatus('data') }).catch(() => setStatus('error')) }, [retry])
+  const item = items[active]
+  return <section className="ext-section ext-reviews" id="reviews"><SectionHeader title="Команды о работе со Снэпбилдом" description="Результат виден не в количестве генераций, а в скорости выхода на рынок" />
+    {status === 'loading' && <div className="ext-state">Загружаем отзывы…</div>}
+    {status === 'error' && <div className="ext-state">Не удалось загрузить отзывы <button onClick={() => setRetry(retry + 1)}>Повторить</button></div>}
+    {item && <article className="ext-review" key={item.id}><blockquote>«{item.quote}»</blockquote><footer><div className="ext-avatar">{item.initials}</div><div><b>{item.name}</b><span>{item.role}</span></div><nav><small>{active + 1} / {items.length}</small><button aria-label="Предыдущий отзыв" onClick={() => setActive((active - 1 + items.length) % items.length)}>←</button><button aria-label="Следующий отзыв" onClick={() => setActive((active + 1) % items.length)}>→</button></nav></footer></article>}
+  </section>
+}
+
+const plans = [
+  { name: 'Команда', month: 49000, year: 470000, text: 'Для одного отдела маркетинга', features: ['До 5 пользователей', '1 дизайн-система', 'Сайты и изображения'] },
+  { name: 'Бизнес', month: 129000, year: 1238000, text: 'Для производства контента в масштабе', features: ['До 25 пользователей', 'Все форматы', 'Роли и согласования'], popular: true },
+  { name: 'Контур', month: null, year: null, text: 'Для корпоративной инфраструктуры', features: ['Без ограничений', 'Private cloud / on-premise', 'Собственные модели и SSO'] },
+]
+
+function PricingExtension() {
+  const [period, setPeriod] = useState('month')
+  const price = (plan) => plan[period] ? `${plan[period].toLocaleString('ru-RU')} ₽` : 'По запросу'
+  return <section className="ext-section ext-pricing" id="pricing"><SectionHeader title="Тарифы под ваши задачи" description="При оплате за год два месяца работы включены в стоимость" /><div className="ext-billing"><button className={period === 'month' ? 'active' : ''} onClick={() => setPeriod('month')}>Месяц</button><button className={period === 'year' ? 'active' : ''} onClick={() => setPeriod('year')}>Год <span>−20%</span></button></div><div className="ext-plans">{plans.map((plan) => <article className={plan.popular ? 'popular' : ''} key={plan.name}>{plan.popular && <small className="ext-badge">Популярный</small>}<h3>{plan.name}</h3><p>{plan.text}</p><strong>{price(plan)}{plan[period] && <small> / {period === 'month' ? 'месяц' : 'год'}</small>}</strong><ul>{plan.features.map((feature) => <li key={feature}>✓ {feature}</li>)}</ul><a href="#lead-form">{plan.name === 'Контур' ? 'Обсудить проект' : 'Запросить демо'}</a></article>)}</div></section>
+}
+
+function LeadFormExtension() {
+  const [form, setForm] = useState({ name: '', email: '', company: '' })
+  const [errors, setErrors] = useState({})
+  const [status, setStatus] = useState('idle')
+  const submit = async (event) => {
+    event.preventDefault()
+    const next = {}
+    if (!form.name.trim()) next.name = 'Укажите имя'
+    if (!/^\S+@\S+\.\S+$/.test(form.email)) next.email = 'Введите корректный email'
+    if (!form.company.trim()) next.company = 'Укажите компанию'
+    setErrors(next)
+    if (Object.keys(next).length) return
+    setStatus('loading')
+    try { await submitLead(form); setStatus('success') } catch { setStatus('error') }
+  }
+  const field = (name, label, type = 'text') => <label>{label}<input type={type} value={form[name]} aria-invalid={Boolean(errors[name])} onChange={(event) => setForm({ ...form, [name]: event.target.value })} />{errors[name] && <small>{errors[name]}</small>}</label>
+  return <section className="ext-section ext-lead" id="lead-form"><SectionHeader title="Посмотрим на задачи вашей команды" description="Проведём демонстрацию на материалах вашей компании" /><div className="ext-form-box">{status === 'success' ? <div className="ext-success"><b>✓</b><h3>Заявка принята</h3><p>Свяжемся с вами в течение рабочего дня.</p><button onClick={() => setStatus('idle')}>Отправить ещё одну</button></div> : <form onSubmit={submit} noValidate>{field('name', 'Ваше имя')}{field('email', 'Рабочий email', 'email')}{field('company', 'Компания')}<button type="submit" disabled={status === 'loading'}>{status === 'loading' ? 'Отправляем…' : 'Запросить демо'}</button>{status === 'error' && <small>Не удалось отправить. Попробуйте ещё раз.</small>}<p>Нажимая кнопку, вы соглашаетесь с политикой конфиденциальности</p></form>}</div></section>
+}
+
+function OriginalScripts() {
+  useEffect(() => {
+    document.documentElement.classList.add('hero-motion-pending')
+    const nodes = []
+    const load = (src) => new Promise((resolve) => {
+      const script = document.createElement('script')
+      script.src = `${base}assets/js/${src}`
+      script.onload = resolve
+      script.async = false
+      document.body.appendChild(script)
+      nodes.push(script)
+    })
+    load('hero-motion.js').then(() => load('85e547ee71f164c7.js'))
+    return () => nodes.forEach((node) => node.remove())
+  }, [])
+  return null
+}
+
+function App() {
+  const [targets, setTargets] = useState(null)
+  useEffect(() => {
+    const make = (id) => { const node = document.createElement('div'); node.id = id; return node }
+    const cases = make('react-cases')
+    const metrics = make('react-metrics')
+    const reviews = make('react-reviews')
+    const pricing = make('react-pricing')
+    const lead = make('react-lead')
+    document.querySelector('#use-cases')?.after(cases)
+    document.querySelector('#compare')?.after(metrics)
+    document.querySelector('#roadmap')?.after(reviews)
+    reviews.after(pricing)
+    document.querySelector('#cta')?.before(lead)
+    setTargets({ cases, metrics, reviews, pricing, lead })
+    return () => [cases, metrics, reviews, pricing, lead].forEach((node) => node.remove())
+  }, [])
+
+  return <>
+    <div className="original-site" dangerouslySetInnerHTML={{ __html: markup }} />
+    <OriginalScripts />
+    {targets && <>{createPortal(<UseCasesExtension />, targets.cases)}{createPortal(<MetricsExtension />, targets.metrics)}{createPortal(<ReviewsExtension />, targets.reviews)}{createPortal(<PricingExtension />, targets.pricing)}{createPortal(<LeadFormExtension />, targets.lead)}</>}
+  </>
+}
+
+createRoot(document.getElementById('root')).render(<App />)

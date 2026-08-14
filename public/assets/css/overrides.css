@@ -1,0 +1,767 @@
+
+
+#process .dds-steps-title,
+#use-cases .dds-tabs-title,
+#compare .dds-benefit-title,
+#features .dds-why-safe-section-title,
+#roadmap .dds-rmap-title,
+#faq .dds-accordion-title {
+  font-weight: 500 !important;
+}
+
+#process .dds-steps-name,
+#process .dds-steps-desc,
+#use-cases .dds-tabs-card-title,
+#use-cases .dds-tabs-card-desc,
+#features .dds-why-safe-point-title,
+#features .dds-why-safe-point-desc,
+#roadmap .dds-rmap-name {
+  font-weight: 500 !important;
+}
+
+#features .dds-why-safe-point > .dds-why-safe-card {
+  display: none;
+}
+
+#faq .dds-accordion-item {
+  position: relative;
+}
+
+#faq .dds-accordion-head::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  border-radius: inherit;
+  cursor: pointer;
+}
+
+#features .dds-why-safe-image {
+  display: block;
+  width: 100%;
+  height: calc(432 / 14.4 * 1vw);
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+#features .dds-why-safe-image img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+@media (max-width: 767px) {
+  #use-cases {
+    /* The tab row expands by the same fluid gutter below. Keep the section
+       gutter fluid too; a fixed 16px value only cancels at exactly 375px and
+       causes document-level overflow at wider intermediate mobile widths. */
+    padding-inline: calc(16 / 3.75 * 1vw);
+  }
+}
+
+@media (max-width: 1023px) {
+  #features .dds-why-safe-image {
+    height: auto;
+    aspect-ratio: 1 / 1;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  #features .dds-why-safe-image {
+    border-radius: calc(12 / 8.1 * 1vw);
+  }
+}
+
+@media (max-width: 767px) {
+  #features .dds-why-safe-image {
+    height: calc(171.5 / 3.75 * 1vw);
+    aspect-ratio: auto;
+    border-radius: 6px;
+  }
+}
+
+#use-cases .dds-tabs-panel,
+#use-cases .dds-tabs-media {
+  border-radius: calc(12 / 14.4 * 1vw) !important;
+}
+
+#hero .dds-app-preview-media,
+#hero .dds-app-preview-shot,
+#hero img[data-cms-image="hero.app-screenshot"] {
+  aspect-ratio: 2632 / 1386 !important;
+}
+
+#hero .dds-app-preview-media {
+  height: auto !important;
+  padding-top: 0 !important;
+}
+
+#hero .dds-app-preview-shot,
+#hero img[data-cms-image="hero.app-screenshot"] {
+  display: block;
+  bottom: 0;
+}
+
+@media (min-width: 1024px) {
+  #hero .dds-app-preview-media {
+    margin-top: calc(20 / 14.4 * 1vw);
+  }
+}
+
+#use-cases .dds-tabs-card {
+  border-radius: 0 !important;
+}
+
+#roadmap .dds-rmap-track::after {
+  display: block;
+  width: calc(var(--dds-rmap-progress, 0) * var(--dds-rmap-col) + calc(4 / 14.4 * 1vw));
+}
+
+#roadmap .dds-rmap-track {
+  /* Keep the physical padding and the line origin on the same responsive
+     variable. A legacy tablet layout rule used a 768px reference for the
+     padding while the roadmap itself uses 810px, shifting the line by 1px. */
+  padding-inline: var(--dds-rmap-pad);
+}
+
+.dds-cookie-actions {
+  justify-content: flex-end;
+  width: 100%;
+}
+
+.dds-footer-email-mobile {
+  display: none;
+}
+
+#footer [data-cms-key="footer.legal.email"] {
+  font-size: max(12px, calc(14 / 14.4 * 1vw)) !important;
+  line-height: 1.4286 !important;
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  #footer [data-cms-key="footer.legal.email"] {
+    font-size: max(12px, calc(14 / 8.1 * 1vw)) !important;
+  }
+
+  #roadmap .dds-rmap-track::after {
+    width: calc(var(--dds-rmap-progress, 0) * var(--dds-rmap-col) + calc(4 / 8.1 * 1vw));
+  }
+
+  #process .dds-steps-name,
+  #use-cases .dds-tabs-card-title,
+  #features .dds-why-safe-point-title {
+    font-size: calc(20 / 8.1 * 1vw) !important;
+    line-height: calc(28 / 8.1 * 1vw) !important;
+    letter-spacing: calc(-0.5 / 8.1 * 1vw) !important;
+  }
+
+  #process .dds-steps-desc,
+  #use-cases .dds-tabs-card-desc,
+  #features .dds-why-safe-point-desc {
+    font-size: calc(16 / 8.1 * 1vw) !important;
+    line-height: calc(24 / 8.1 * 1vw) !important;
+  }
+
+  #process .dds-steps-media,
+  #features .dds-why-safe-card {
+    height: auto !important;
+    aspect-ratio: 1 / 1 !important;
+    border-radius: calc(12 / 8.1 * 1vw) !important;
+  }
+
+  #use-cases .dds-tabs-panel,
+  #use-cases .dds-tabs-media {
+    border-radius: calc(12 / 8.1 * 1vw) !important;
+  }
+
+}
+
+@media (max-width: 1023px) {
+  #use-cases .dds-tabs-header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  #use-cases .dds-tabs-title,
+  #use-cases .dds-tabs-wide,
+  #use-cases .dds-tabs-narrow {
+    width: 100%;
+    max-width: none;
+  }
+
+  #use-cases .dds-tabs-group {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: auto;
+    overscroll-behavior-inline: contain;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  #use-cases .dds-tabs-group::-webkit-scrollbar {
+    display: none;
+  }
+
+  #use-cases .dds-tabs-tab {
+    flex: 0 0 auto;
+  }
+
+  #use-cases .dds-tabs-body {
+    display: flex !important;
+    flex-direction: column !important;
+  }
+
+  #use-cases .dds-tabs-points {
+    display: contents !important;
+  }
+
+  #uc-tab-1:checked ~ .dds-tabs-inner .dds-tabs-points-set--1,
+  #uc-tab-2:checked ~ .dds-tabs-inner .dds-tabs-points-set--2,
+  #uc-tab-3:checked ~ .dds-tabs-inner .dds-tabs-points-set--3,
+  #uc-tab-4:checked ~ .dds-tabs-inner .dds-tabs-points-set--4,
+  #uc-tab-5:checked ~ .dds-tabs-inner .dds-tabs-points-set--5 {
+    display: contents !important;
+  }
+
+  #use-cases .dds-tabs-panel {
+    order: 0 !important;
+    width: 100%;
+    aspect-ratio: 16 / 9 !important;
+  }
+
+  #use-cases .dds-tabs-card {
+    order: 1 !important;
+  }
+
+  #use-cases .dds-tabs-card--active {
+    order: 1 !important;
+  }
+
+  #header [data-cms-key="header.cta.demo.mobile"] {
+    display: block;
+    line-height: calc(28 / 8.1 * 1vw);
+  }
+}
+
+@media (min-width: 1024px) {
+  #footer {
+    padding-top: calc(64 / 14.4 * 1vw) !important;
+    padding-bottom: calc(64 / 14.4 * 1vw) !important;
+  }
+
+  #footer .dds-footer-top,
+  #footer .dds-footer-links {
+    height: auto !important;
+    min-height: 0;
+  }
+
+  #footer .dds-footer-legal {
+    flex: 0 0 auto;
+  }
+}
+
+@media (max-width: 1023px) {
+  #header .dds-main-bar {
+    position: relative;
+    z-index: 52;
+  }
+
+  #header .dds-main-toggle:checked ~ .dds-main-bar {
+    box-shadow: none;
+  }
+
+  #header .dds-main-menu {
+    position: fixed;
+    inset: 0;
+    z-index: 51;
+    width: 100%;
+    min-width: 0;
+    height: 100vh;
+    height: 100dvh;
+    padding: calc(104 / 8.1 * 1vw) calc(20 / 8.1 * 1vw) calc(20 / 8.1 * 1vw);
+    gap: 0;
+    border: 0;
+    border-radius: 0;
+    background: #fff;
+    box-shadow: none;
+    overflow-y: auto;
+  }
+
+  #header .dds-main-menu-link {
+    padding: calc(20 / 8.1 * 1vw) 0;
+    border-bottom: calc(1 / 8.1 * 1vw) solid rgba(0, 0, 0, 0.1);
+    border-radius: 0;
+    color: #000;
+    font-size: calc(32 / 8.1 * 1vw);
+    line-height: calc(40 / 32);
+    font-weight: 500;
+  }
+
+  #header .dds-main-menu-link:hover,
+  #header .dds-main-menu-link:focus-visible {
+    background: transparent;
+  }
+
+  #header .dds-main-menu .dds-btn {
+    min-height: calc(64 / 8.1 * 1vw);
+    margin-top: auto;
+    padding: calc(18 / 8.1 * 1vw) calc(24 / 8.1 * 1vw);
+    border-radius: calc(12 / 8.1 * 1vw);
+    font-size: calc(20 / 8.1 * 1vw);
+  }
+
+  #header .dds-main-toggle:checked ~ .dds-main-bar .dds-main-demo {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+
+  /* The menu is toggled with display, which can't transition — so the panel and
+     its children animate instead. Going display:none -> flex replays them. */
+  #header .dds-main-toggle:checked ~ .dds-main-menu {
+    animation: dds-menu-panel-in 140ms ease both;
+  }
+
+  #header .dds-main-toggle:checked ~ .dds-main-menu .dds-main-menu-link {
+    animation: dds-menu-item-in 260ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  #header .dds-main-toggle:checked ~ .dds-main-menu .dds-main-menu-link:nth-child(1) { animation-delay: 40ms; }
+  #header .dds-main-toggle:checked ~ .dds-main-menu .dds-main-menu-link:nth-child(2) { animation-delay: 85ms; }
+  #header .dds-main-toggle:checked ~ .dds-main-menu .dds-main-menu-link:nth-child(3) { animation-delay: 130ms; }
+  #header .dds-main-toggle:checked ~ .dds-main-menu .dds-main-menu-link:nth-child(4) { animation-delay: 175ms; }
+  #header .dds-main-toggle:checked ~ .dds-main-menu .dds-main-menu-link:nth-child(5) { animation-delay: 220ms; }
+
+  #header .dds-main-toggle:checked ~ .dds-main-menu .dds-btn {
+    animation: dds-menu-cta-in 280ms cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation-delay: 200ms;
+  }
+
+  html.dds-menu-open,
+  html.dds-menu-open body {
+    overflow: hidden;
+  }
+}
+
+@keyframes dds-menu-panel-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes dds-menu-item-in {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes dds-menu-cta-in {
+  from { opacity: 0; transform: scale(0.97); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes dds-slide-in-next {
+  from { opacity: 0; transform: translateX(24%); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes dds-slide-in-prev {
+  from { opacity: 0; transform: translateX(-24%); }
+  to { opacity: 1; transform: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #header .dds-main-toggle:checked ~ .dds-main-menu,
+  #header .dds-main-toggle:checked ~ .dds-main-menu .dds-main-menu-link,
+  #header .dds-main-toggle:checked ~ .dds-main-menu .dds-btn,
+  #use-cases .dds-tabs-panel[data-swipe] .dds-tabs-media--active {
+    animation: none;
+  }
+}
+
+@media (max-width: 767px) {
+  #logos {
+    margin-top: calc(16 / 3.75 * 1vw);
+  }
+
+  #footer [data-cms-key="footer.legal.email"] {
+    font-size: max(12px, calc(14 / 3.75 * 1vw)) !important;
+  }
+
+  #cta {
+    padding-top: calc(32 / 3.75 * 1vw);
+  }
+
+  #hero .dds-app-preview-subtitle,
+  #process .dds-steps-subtitle,
+  #compare .dds-benefit-subtitle,
+  #roadmap .dds-rmap-subtitle,
+  #faq .dds-accordion-subtitle,
+  #cta .dds-launch-subtitle {
+    width: 100% !important;
+    max-width: none !important;
+    height: auto !important;
+    min-height: 0;
+  }
+
+  #roadmap .dds-rmap-track::after {
+    width: calc(var(--dds-rmap-progress, 0) * var(--dds-rmap-col) + calc(4 / 3.75 * 1vw));
+  }
+
+  #footer {
+    padding-bottom: calc(24 / 3.75 * 1vw) !important;
+  }
+
+  #footer .dds-footer-email-mobile {
+    display: block;
+  }
+
+  #footer .dds-footer-legal > a {
+    display: none !important;
+  }
+
+  #logos.dds-marquee {
+    gap: calc(24 / 3.75 * 1vw);
+  }
+
+  #logos .dds-marquee-content,
+  #logos .dds-marquee-item {
+    align-items: flex-end;
+  }
+
+  #logos .dds-marquee-item-10 img {
+    width: calc(100 / 3.75 * 1vw);
+    height: auto;
+  }
+
+  #hero.dds-app-preview {
+    padding: 0;
+  }
+
+  #hero .dds-app-preview-card {
+    width: 100%;
+    min-height: 0;
+    height: auto;
+    border-radius: 0;
+  }
+
+  #hero .dds-app-preview-inner {
+    width: 100%;
+    height: auto;
+    min-height: 0;
+    padding: calc(88 / 3.75 * 1vw) 0 0;
+    gap: calc(32 / 3.75 * 1vw);
+  }
+
+  #hero .dds-app-preview-intro {
+    width: 100%;
+    padding-inline: calc(16 / 3.75 * 1vw);
+  }
+
+  #hero .dds-app-preview-heading,
+  #hero .dds-app-preview-title,
+  #hero .dds-app-preview-subtitle {
+    width: 100%;
+    max-width: none;
+    height: auto;
+    min-height: 0;
+    text-align: center;
+  }
+
+  #hero .dds-app-preview-media {
+    /* 16px gutters, matching the rest of the mobile layout. !important beats
+       the later inline #browser-annotation-fixes width:100%. */
+    width: calc(100% - calc(32 / 3.75 * 1vw)) !important;
+    height: auto !important;
+    min-height: 0;
+    margin-inline: auto;
+    padding: 0;
+    aspect-ratio: 2632 / 1386;
+    overflow: hidden;
+  }
+
+  #hero .dds-app-preview-shot,
+  #hero img[data-cms-image="hero.app-screenshot"] {
+    width: 100%;
+    height: 100%;
+    /* !important beats the later inline #browser-annotation-fixes block. */
+    border-radius: 6px 6px 0 0 !important;
+    object-fit: cover;
+    object-position: center;
+  }
+
+  #process .dds-steps-name,
+  #use-cases .dds-tabs-card-title,
+  #features .dds-why-safe-point-title {
+    font-size: calc(16 / 3.75 * 1vw) !important;
+    line-height: calc(22 / 3.75 * 1vw) !important;
+    letter-spacing: 0 !important;
+  }
+
+  #process .dds-steps-desc,
+  #use-cases .dds-tabs-card-desc,
+  #features .dds-why-safe-point-desc {
+    font-size: calc(14 / 3.75 * 1vw) !important;
+    line-height: calc(20 / 3.75 * 1vw) !important;
+  }
+
+  #process .dds-steps-media,
+  #features .dds-why-safe-card {
+    width: 100%;
+    height: auto !important;
+    aspect-ratio: 2 / 1 !important;
+    border-radius: 6px !important;
+  }
+
+  #use-cases .dds-tabs-header {
+    gap: calc(16 / 3.75 * 1vw);
+  }
+
+  #use-cases .dds-tabs-group {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: calc(2 / 3.75 * 1vw);
+    overflow-x: auto;
+    overscroll-behavior-inline: contain;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+    width: calc(100% + calc(32 / 3.75 * 1vw));
+    max-width: none;
+    margin-inline: calc(-16 / 3.75 * 1vw);
+    padding-inline: calc(16 / 3.75 * 1vw);
+  }
+
+  #use-cases .dds-tabs-group::-webkit-scrollbar {
+    display: none;
+  }
+
+  #use-cases .dds-tabs-tab {
+    flex: 0 0 auto;
+    padding: calc(6 / 3.75 * 1vw) calc(12 / 3.75 * 1vw);
+    white-space: nowrap;
+  }
+
+  #use-cases .dds-tabs-panel,
+  #use-cases .dds-tabs-media {
+    border-radius: 6px !important;
+  }
+
+  /* Vertical scrolling stays with the browser; the horizontal axis is used to
+     page through the slides. */
+  #use-cases .dds-tabs-panel {
+    touch-action: pan-y;
+  }
+
+  #use-cases .dds-tabs-panel[data-swipe="next"] .dds-tabs-media--active {
+    animation: dds-slide-in-next 260ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  #use-cases .dds-tabs-panel[data-swipe="prev"] .dds-tabs-media--active {
+    animation: dds-slide-in-prev 260ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+
+  #use-cases .dds-tabs-body {
+    gap: calc(10 / 3.75 * 1vw);
+  }
+
+  #use-cases .dds-tabs-panel {
+    aspect-ratio: 16 / 9 !important;
+  }
+
+  #compare .dds-benefit-scroll {
+    --dds-compare-divider: #f0f0f0;
+    position: relative;
+    isolation: isolate;
+    padding-inline: 0;
+    background-color: #fff;
+  }
+
+  #compare .sds-compare-table {
+    overflow: visible;
+    border-radius: 0;
+    background-color: #fff;
+    grid-template-columns: calc(90 / 3.75 * 1vw) calc(100 / 3.75 * 1vw) repeat(3, calc(120 / 3.75 * 1vw)) calc(140 / 3.75 * 1vw);
+    /* Match the surface to the sum of its tracks. The exported 720px width
+       leaves a 30px empty phase after the final column. */
+    width: calc(690 / 3.75 * 1vw);
+  }
+
+  #compare .sds-compare-cell {
+    background-color: #fff;
+  }
+
+  /* The exported dividers use alpha. Under the sticky columns that exposes
+     the moving cells and makes one divider look doubled while scrolling. */
+  #compare .sds-compare-cell:nth-child(3),
+  #compare .sds-compare-cell:nth-child(4),
+  #compare .sds-compare-cell:nth-child(5) {
+    border-right-color: var(--dds-compare-divider);
+  }
+
+  #compare .sds-compare-row--head .sds-compare-cell {
+    border-bottom-color: var(--dds-compare-divider);
+  }
+
+  #compare [data-cms-key="compare.r2.c4"] {
+    white-space: normal;
+  }
+
+  #compare .sds-compare-row--head .sds-compare-cell--label > * {
+    visibility: hidden;
+  }
+
+  #compare .sds-compare-brand-border {
+    display: none;
+  }
+
+  #compare .sds-compare-row > .sds-compare-cell:nth-child(1),
+  #compare .sds-compare-row > .sds-compare-cell:nth-child(2) {
+    position: sticky;
+    z-index: 3;
+    background-color: #fff;
+    background-clip: padding-box;
+    isolation: isolate;
+  }
+
+  #compare .sds-compare-row > .sds-compare-cell:nth-child(1) {
+    left: 0;
+  }
+
+  #compare .sds-compare-row > .sds-compare-cell:nth-child(2) {
+    left: calc(90 / 3.75 * 1vw);
+    border-inline: calc(2 / 3.75 * 1vw) solid transparent;
+    background-image:
+      linear-gradient(#fff, #fff),
+      linear-gradient(180deg, #ff6d3d 0%, #ff6ca7 52%, #bb6dff 100%);
+    background-origin: padding-box, border-box;
+    background-clip: padding-box, border-box;
+    background-repeat: no-repeat, no-repeat;
+    /* Row heights are fixed (60 head + 4 × 72), so the border gradient is drawn once
+       at full column height and each row shows its own vertical slice of it —
+       avoids the gradient restarting per-row (striped look). */
+    background-size: 100% 100%, 100% calc(348 / 3.75 * 1vw);
+    background-position: 0 0, 0 0;
+  }
+
+  #compare .sds-compare-row--head + .sds-compare-row > .sds-compare-cell:nth-child(2) {
+    background-position: 0 0, 0 calc(-60 / 3.75 * 1vw);
+  }
+
+  #compare .sds-compare-row--head + .sds-compare-row + .sds-compare-row > .sds-compare-cell:nth-child(2) {
+    background-position: 0 0, 0 calc(-132 / 3.75 * 1vw);
+  }
+
+  #compare .sds-compare-row--head + .sds-compare-row + .sds-compare-row + .sds-compare-row > .sds-compare-cell:nth-child(2) {
+    background-position: 0 0, 0 calc(-204 / 3.75 * 1vw);
+  }
+
+  #compare .sds-compare-row--head + .sds-compare-row + .sds-compare-row + .sds-compare-row + .sds-compare-row > .sds-compare-cell:nth-child(2) {
+    background-position: 0 0, 0 calc(-276 / 3.75 * 1vw);
+  }
+
+  #compare .sds-compare-row--head > .sds-compare-cell:nth-child(1),
+  #compare .sds-compare-row--head > .sds-compare-cell:nth-child(2) {
+    z-index: 4;
+  }
+
+  #compare .sds-compare-row--head > .sds-compare-cell:nth-child(2) {
+    border-top: calc(2 / 3.75 * 1vw) solid transparent;
+    border-bottom: none;
+    border-radius: calc(20 / 3.75 * 1vw) calc(20 / 3.75 * 1vw) 0 0;
+  }
+
+  #compare .sds-compare-row--head > .sds-compare-cell:nth-child(2)::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 1px;
+    background: var(--dds-compare-divider);
+    z-index: 1;
+  }
+
+  #compare .sds-compare-row:last-child > .sds-compare-cell:nth-child(2) {
+    border-bottom: calc(2 / 3.75 * 1vw) solid transparent;
+    border-radius: 0 0 calc(20 / 3.75 * 1vw) calc(20 / 3.75 * 1vw);
+  }
+
+  #header .dds-main-menu {
+    padding: calc(92 / 3.75 * 1vw) calc(16 / 3.75 * 1vw) calc(16 / 3.75 * 1vw);
+  }
+
+  #header .dds-main-menu-link {
+    padding: calc(18 / 3.75 * 1vw) 0;
+    border-bottom-width: calc(1 / 3.75 * 1vw);
+    font-size: calc(28 / 3.75 * 1vw);
+    line-height: calc(36 / 28);
+  }
+
+  #header .dds-main-menu .dds-btn {
+    min-height: calc(60 / 3.75 * 1vw);
+    padding: calc(16 / 3.75 * 1vw) calc(20 / 3.75 * 1vw);
+    border-radius: calc(12 / 3.75 * 1vw);
+    font-size: calc(18 / 3.75 * 1vw);
+  }
+
+  #header [data-cms-key="header.cta.demo.mobile"] {
+    line-height: calc(24 / 3.75 * 1vw);
+  }
+
+  #faq .dds-accordion-state:checked ~ .dds-accordion-panel {
+    grid-template-rows: minmax(0, 1fr);
+    overflow: visible;
+  }
+
+  #faq .dds-accordion-state:checked ~ .dds-accordion-panel .dds-accordion-answer {
+    height: auto !important;
+    max-height: none !important;
+    overflow: visible;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #use-cases .dds-tabs-group {
+    scroll-behavior: auto;
+  }
+}
+
+@media (min-width: 1024px) {
+  #cta .dds-launch-title {
+    font-size: 40px !important;
+  }
+}
+
+/* The step-2 render is a centred object, so the mobile 2/1 and tablet 1/1 crops
+   cut it off. It ships per-breakpoint reframes instead; `display: contents`
+   keeps the <img> laid out exactly as the unwrapped siblings. */
+#process .dds-steps-picture {
+  display: contents;
+}
+
+/* Keep one static, contained logo group outside the mobile marquee layout. */
+@media (min-width: 768px) {
+  #logos {
+    overflow: hidden;
+  }
+
+  #logos .dds-marquee-track {
+    align-self: auto;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    justify-content: center;
+    overflow: hidden;
+    animation: none !important;
+    transform: none !important;
+  }
+
+  #logos .dds-marquee-content {
+    display: contents;
+  }
+
+  #logos .dds-marquee-content[aria-hidden="true"] {
+    display: none;
+  }
+}
