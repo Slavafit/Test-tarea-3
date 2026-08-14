@@ -13,6 +13,10 @@ const markup = originalMarkup
   .replaceAll('assets/', `${base}assets/`)
   .replaceAll('href="/"', `href="${base}"`)
 
+const OriginalSite = React.memo(function OriginalSite() {
+  return <div className="original-site" dangerouslySetInnerHTML={{ __html: markup }} />
+})
+
 function SectionHeader({ title, description }) {
   return <header className="ext-head"><h2>{title}</h2>{description && <p>{description}</p>}</header>
 }
@@ -99,6 +103,7 @@ function OriginalScripts() {
     const load = (src) => new Promise((resolve) => {
       const script = document.createElement('script')
       script.src = `${base}assets/js/${src}`
+      script.type = 'module'
       script.onload = resolve
       script.async = false
       document.body.appendChild(script)
@@ -181,7 +186,7 @@ function App() {
   }, [])
 
   return <>
-    <div className="original-site" dangerouslySetInnerHTML={{ __html: markup }} />
+    <OriginalSite />
     <OriginalScripts />
     {targets && <>{createPortal(<UseCasesExtension />, targets.cases)}{createPortal(<MetricsExtension />, targets.metrics)}{createPortal(<ReviewsExtension />, targets.reviews)}{createPortal(<PricingExtension />, targets.pricing)}{createPortal(<LeadFormExtension />, targets.lead)}</>}
     <ScrollReveal ready={Boolean(targets)} />
