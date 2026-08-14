@@ -12,7 +12,7 @@ if (logos) {
   });
 
   const revealLogos = () => {
-    logos.classList.add('is-logos-revealed');
+    logos.classList.add('is-logos-revealed', 'is-visible');
   };
 
   if ('IntersectionObserver' in window) {

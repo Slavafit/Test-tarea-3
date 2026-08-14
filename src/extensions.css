@@ -1,3 +1,24 @@
+html,
+body {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+  overflow-x: clip;
+}
+
+#root,
+.original-site {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+}
+
+/* The original mobile CSS pauses the partner marquee until it becomes visible. */
+.dds-marquee.is-logos-revealed .dds-marquee-track[data-marquee-built],
+.dds-marquee.is-visible .dds-marquee-track[data-marquee-built] {
+  animation-play-state: running;
+}
+
 .ext-section {
   --ext-bg: #f5f5f6;
   --ext-card: #fff;
@@ -205,6 +226,21 @@
 }
 
 @media (max-width: 767px) {
+  .original-site > *,
+  .ext-section {
+    max-width: 100%;
+  }
+
+  .dds-marquee {
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden;
+  }
+
+  .dds-marquee-track {
+    will-change: transform;
+  }
+
   .ext-section { padding: calc(48 / 3.75 * 1vw) calc(16 / 3.75 * 1vw); }
   .ext-head { gap: 16px; margin-bottom: 28px; }
   .ext-head h2 { font-size: calc(32 / 3.75 * 1vw); line-height: 1.25; }
