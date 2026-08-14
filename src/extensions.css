@@ -243,6 +243,8 @@ html.scroll-reveal-enabled .scroll-reveal-group.is-revealed > :nth-child(n + 4) 
   .ext-metric-grid { grid-template-columns: 1fr 1fr; }
   .ext-metric-grid > div:nth-child(2) { border-right: 0; }
   .ext-metric-grid > div:nth-child(-n+2) { border-bottom: 1px solid rgb(255 255 255 / 16%); }
+  .ext-metric-grid span,
+  .ext-metrics > small { font-size: calc(14 / 8.1 * 1vw); line-height: 1.4; }
   .ext-plans { grid-template-columns: 1fr; }
   .ext-lead { grid-template-columns: 1fr; }
   .ext-form-box { max-width: 600px; }
@@ -279,6 +281,8 @@ html.scroll-reveal-enabled .scroll-reveal-group.is-revealed > :nth-child(n + 4) 
   .ext-metric-grid { grid-template-columns: 1fr; }
   .ext-metric-grid > div { border-right: 0; border-bottom: 1px solid rgb(255 255 255 / 16%); padding: 24px 0; }
   .ext-metric-grid strong { font-size: 58px; }
+  .ext-metric-grid span { font-size: 16px; line-height: 1.35; }
+  .ext-metrics > small { max-width: 300px; margin-top: 18px; font-size: 14px; line-height: 1.45; }
   .ext-review { min-height: 410px; padding: 24px; }
   .ext-review blockquote { max-width: none; font-size: 28px; }
   .ext-review footer { align-items: flex-start; flex-wrap: wrap; }
